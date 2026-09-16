@@ -17,6 +17,8 @@ Painel inicial para acompanhar atendimentos, SLAs, alertas e desempenho dos seto
 Os dados iniciais são demonstrativos. As integrações com Digisac e Chat On estão sinalizadas como pendentes até o fornecimento das APIs.
 
 ## Executar localmente
+C:\Users\Billy\Desktop\APP_JP2AUTO\jp2auto-central-v1> pnpm.cmd exec next dev 
+http://192.168.20.81:3000/
 
 Requer Node.js 22 ou superior e pnpm.
 
