@@ -1,0 +1,11 @@
+import {test} from 'node:test';
+import assert from 'node:assert/strict';
+import {initialData,businessMinutes,health,transition,waitMinutes,decodeBackup} from '../lib/domain.ts';
+import type {Ticket} from '../lib/domain.ts';
+const s=initialData().settings;
+const t:Ticket={id:'1',client:'Teste',code:'75414',os:'585',protocol:'',origin:'Telefone',sector:'Garantia',owner:'',subject:'Teste',state:'Aguardando empresa',nextActor:'Empresa',followup:'',created:'2026-09-14T08:00:00',since:'2026-09-14T08:00:00',elapsed:0,sla:30,rating:0,events:[]};
+test('weekend and outside business hours excluded',()=>assert.equal(businessMinutes('2026-09-11T17:30:00','2026-09-14T08:15:00',s),45));
+test('waiting on customer pauses, resume preserves accumulated wait',()=>{const p=transition(t,'Aguardando cliente',s,'2026-09-14T08:10:00','Pausa');assert.equal(waitMinutes(p,s,'2026-09-14T17:00:00'),10);const r=transition(p,'Em atendimento',s,'2026-09-14T17:00:00','Retomada');assert.equal(waitMinutes(r,s,'2026-09-14T17:05:00'),15);});
+test('deadline is overdue at exact SLA',()=>assert.equal(health(t,s,'2026-09-14T08:30:00'),'Atrasado'));
+test('closure keeps protocol and timeline',()=>{const c=transition(t,'Finalizado',s,'2026-09-14T08:20:00','Resolvido');assert.equal(c.os,'585');assert.equal(c.events.length,1);assert.equal(waitMinutes(c,s,'2026-09-15T12:00:00'),20);});
+test('backup validation rejects malformed data',()=>{assert.deepEqual(decodeBackup(JSON.stringify(initialData())),initialData());assert.throws(()=>decodeBackup('{"version":2}'));const d=initialData();d.settings.end=4;assert.throws(()=>decodeBackup(JSON.stringify(d)));});

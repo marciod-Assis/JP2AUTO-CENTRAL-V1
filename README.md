@@ -1,45 +1,38 @@
-# JP2auto — Central de Atendimento V1
+# JP2auto Central — V2
 
-Painel inicial para acompanhar atendimentos, SLAs, alertas e desempenho dos setores da JP2auto.
+Piloto local de acompanhamento de atendimento e pós-venda, com cadastros, histórico, SLAs, indicadores e vínculos de cliente/OS/protocolo.
 
-## O que já funciona
+## Executar no Windows
 
-- Visão geral de atendimentos, atrasos e cumprimento de SLA;
-- Filtro por setor e busca por cliente, protocolo ou atendente;
-- Cadastro manual de novos atendimentos;
-- Cálculo automático de status pelo tempo de espera;
-- Armazenamento local dos atendimentos cadastrados;
-- Fila visual de alertas;
-- Gráfico de volume semanal;
-- Ranking equilibrando prazo e avaliação;
-- Layout adaptado para computador e celular.
+Na pasta do projeto, com Node 22.13+ e pnpm instalados:
 
-Os dados iniciais são demonstrativos. As integrações com Digisac e Chat On estão sinalizadas como pendentes até o fornecimento das APIs.
-
-## Executar localmente
-C:\Users\Billy\Desktop\APP_JP2AUTO\jp2auto-central-v1> pnpm.cmd exec next dev 
-http://192.168.20.81:3000/
-
-Requer Node.js 22 ou superior e pnpm.
-
-```bash
-pnpm install
-pnpm dev
+```powershell
+pnpm.cmd install
+pnpm.cmd dev
 ```
 
-## Validar para produção
+Abra no navegador o endereço informado pelo terminal. O comando usa Next.js diretamente, sem autenticação de desenvolvimento Sites.
 
-```bash
-pnpm lint
-pnpm build
+## Funcionalidades
+
+- Cadastro, edição, transferência, pausa, encerramento e reabertura de atendimentos;
+- Histórico de observações e mudanças;
+- Código de cliente Bling, número de OS e protocolo Digisac opcional;
+- Origem da tratativa, próxima ação e data de acompanhamento;
+- Colaboradores com setor e ativação/desativação;
+- Calendário semanal, limites por setor e alertas locais;
+- Indicadores derivados dos registros, filtros, CSV e backup JSON.
+
+## Limitações
+
+Dados apenas neste navegador, sem login ou banco compartilhado. As integrações exibem referências e pendências; não sincronizam nem enviam mensagens. Não colocar credenciais nem dados de clientes no GitHub. Os exemplos da V1 não são importados como dados reais.
+
+Veja [instruções e regras da V2](docs/V2.md) antes do uso.
+
+## Verificar
+
+```powershell
+pnpm.cmd test
+pnpm.cmd lint
+pnpm.cmd build
 ```
-
-## Próxima etapa
-
-1. Criar autenticação e banco PostgreSQL;
-2. Receber eventos do Digisac por webhook ou consulta periódica;
-3. Configurar envio de alertas no Digisac e Chat On;
-4. Cadastrar usuários, horários úteis e SLAs reais;
-5. Substituir os dados demonstrativos pelas informações oficiais.
-
-Nunca salve tokens ou senhas no repositório. Use variáveis de ambiente protegidas.
